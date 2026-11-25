@@ -43,7 +43,7 @@
 </head>
 <body>
 <h1>英単語トレーニング</h1>
-<p class="sub">英検2級レベル ・ レベル1〜3 ・ 全80セット × 10語 ＝ 800語</p>
+<p class="sub">英検2級レベル ・ レベル1〜3 ・ 単語800語 ＋ 熟語100個</p>
 
 <!-- ホーム -->
 <div id="view-home">
@@ -61,6 +61,11 @@
     <p><strong>セット一覧</strong></p>
     <p class="note">単語表で覚える → 「覚えた」を押す → テスト。テストには<strong>前回のセット</strong>と<strong>5回前のセット</strong>の復習に加えて、<strong>間違えた単語（苦手な単語）</strong>も多めに混ざるよ。レベル1を終えたらレベル2、レベル3へと上がっていこう。</p>
     <div id="set-list"></div>
+  </div>
+  <div class="card">
+    <p><strong>熟語（イディオム）</strong></p>
+    <p class="note">共通テスト・大学入試でよく出る熟語・句動詞が100個（10セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。</p>
+    <div id="idiom-list"></div>
   </div>
   <div class="card">
     <p><strong>進み具合のバックアップ</strong></p>
@@ -87,6 +92,19 @@
       <tbody id="word-table"></tbody>
     </table>
     <button id="to-test-btn" onclick="startTest()" disabled>テストをする</button>
+    <button class="sub-btn" onclick="goHome()">一覧に戻る</button>
+  </div>
+</div>
+
+<!-- 学習（熟語表） -->
+<div id="view-idiom-study" class="hidden">
+  <div class="card">
+    <p class="progress" id="idiom-study-title"></p>
+    <table>
+      <tr><th>熟語</th><th>日本語</th><th></th></tr>
+      <tbody id="idiom-table"></tbody>
+    </table>
+    <button id="idiom-to-test-btn" onclick="startIdiomTest()" disabled>テストをする</button>
     <button class="sub-btn" onclick="goHome()">一覧に戻る</button>
   </div>
 </div>
@@ -202,6 +220,22 @@ SETS.push(
 [["conclude","結論づける"],["determine","決定する・決心する"],["maintain","維持する・主張する"],["claim","主張する"],["prove","証明する"],["demonstrate","実証する・デモをする"],["indicate","示す"],["reflect","反射する・反映する"],["contribute","貢献する"],["tend","〜しがちである"]]
 );
 
+// 熟語（イディオム・句動詞）：単語とは別配列。共通テスト・大学入試頻出ベース。10セット × 10個 ＝ 100個
+const IDIOM_SETS = [
+[["account for","〜を説明する・〜を占める"],["bring about","〜を引き起こす"],["carry out","〜を実行する"],["come up with","〜を思いつく"],["make up for","〜の埋め合わせをする"],["put off","〜を延期する"],["result in","〜という結果になる"],["result from","〜が原因で生じる"],["stand for","〜を表す・象徴する"],["take into account","〜を考慮に入れる"]],
+[["look forward to","〜を楽しみに待つ"],["take part in","〜に参加する"],["be familiar with","〜に詳しい・よく知っている"],["in addition to","〜に加えて"],["be responsible for","〜に責任がある"],["be interested in","〜に興味がある"],["be proud of","〜を誇りに思う"],["be satisfied with","〜に満足している"],["be known for","〜で知られている"],["be different from","〜と異なる"]],
+[["find out","見つけ出す・分かる"],["give up","あきらめる"],["take off","離陸する・脱ぐ"],["put on","着る・身につける"],["turn out","〜だと分かる・結果になる"],["break down","故障する・崩壊する"],["break out","（戦争・火事などが）勃発する"],["bring up","育てる・（話題を）持ち出す"],["call off","〜を中止する"],["come across","偶然出会う・見つける"]],
+[["depend on","〜に頼る・依存する"],["belong to","〜に属する"],["consist of","〜から成る"],["deal with","〜に対処する・扱う"],["concentrate on","〜に集中する"],["lead to","〜につながる・引き起こす"],["be based on","〜に基づいている"],["be related to","〜と関係がある"],["be involved in","〜に関わっている"],["contribute to","〜に貢献する・一因となる"]],
+[["be concerned about","〜を心配する"],["apply for","〜に応募する・申請する"],["refer to","〜を参照する・言及する"],["succeed in","〜に成功する"],["be supposed to","〜することになっている"],["in fact","実は"],["in general","一般的に"],["in particular","特に"],["in advance","前もって"],["in charge of","〜を担当して"]],
+[["in common","共通して"],["in favor of","〜に賛成して"],["in need of","〜を必要として"],["in search of","〜を求めて"],["in trouble","困って・危機にあって"],["as well as","〜だけでなく…も"],["as soon as","〜するとすぐに"],["as long as","〜する限り"],["as far as","〜に関する限り"],["as a result","結果として"]],
+[["as usual","いつものように"],["as if","まるで〜のように"],["as for","〜については"],["as follows","次のとおりである"],["as a whole","全体として"],["take advantage of","〜を利用する"],["make use of","〜を活用する"],["pay attention to","〜に注意を払う"],["take care of","〜の世話をする"],["get rid of","〜を取り除く"]],
+[["make sure","確認する・必ず〜する"],["make up one's mind","決心する"],["keep in mind","心に留めておく"],["run out of","〜を使い果たす・切らす"],["take place","行われる・起こる"],["on the other hand","一方で"],["on purpose","わざと"],["on time","時間通りに"],["in time","間に合って"],["at least","少なくとも"]],
+[["at most","多くとも"],["at first","最初は"],["at last","ついに"],["by chance","偶然に"],["by mistake","間違って"],["be likely to","〜しそうである"],["be willing to","進んで〜する"],["be about to","まさに〜しようとしている"],["be eager to","〜したがる"],["be ready to","〜する準備ができている"]],
+[["tend to","〜しがちである"],["have no choice but to","〜するしかない"],["be opposed to","〜に反対である"],["be aware of","〜に気づいている"],["be capable of","〜する能力がある"],["according to","〜によると"],["because of","〜のために（原因）"],["instead of","〜の代わりに"],["in spite of","〜にもかかわらず"],["in terms of","〜の点では"]]
+];
+const ALL_IDIOMS = IDIOM_SETS.flat();
+function idiomKey(w) { return "i:" + w[0]; } // 苦手プールで単語と衝突しないよう接頭辞を付ける
+
 const LEVELS = [
   { name: "レベル1", start: 0, count: 20 },
   { name: "レベル2", start: 20, count: 30 },
@@ -219,14 +253,16 @@ function setLabel(i) {
 const KEY = "eiken_vocab_v1";
 let state = JSON.parse(localStorage.getItem(KEY) || "{}");
 if (!state.learned) state = { learned: {}, cleared: {}, placementDone: false, startSet: 0 };
-if (!state.missed) state.missed = {}; // 苦手な単語プール { "英単語": { m: 間違えた回数, s: 連続正解数 } }
+if (!state.missed) state.missed = {}; // 苦手プール { "英単語" or "i:熟語": { m: 間違えた回数, s: 連続正解数 } }
+if (!state.idiomLearned) state.idiomLearned = {}; // 熟語の「覚えた」 { セットindex: { 項目index: true } }
+if (!state.idiomCleared) state.idiomCleared = {}; // 熟語セットのクリア { セットindex: true }
 function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
 
 let currentSet = 0;
 let quiz = [], quizIdx = 0, quizScore = {}, quizAnswered = false, quizMode = "";
 
 function show(id) {
-  ["view-home","view-study","view-quiz","view-result"].forEach(v => document.getElementById(v).classList.add("hidden"));
+  ["view-home","view-study","view-idiom-study","view-quiz","view-result"].forEach(v => document.getElementById(v).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   window.scrollTo(0,0);
 }
@@ -241,7 +277,7 @@ function renderHome() {
   document.getElementById("placement-card").style.display = state.placementDone ? "none" : "block";
   const missedCount = Object.keys(state.missed || {}).length;
   document.getElementById("missed-card").style.display = missedCount ? "block" : "none";
-  if (missedCount) document.getElementById("missed-count").textContent = `テストで間違えた単語が ${missedCount} 語たまっているよ。各セットのテストにも多めに出てくるし、ここからまとめて復習もできるよ（2回連続で正解すると卒業）。`;
+  if (missedCount) document.getElementById("missed-count").textContent = `テストで間違えた単語・熟語が ${missedCount} 件たまっているよ。各セットのテストにも多めに出てくるし、ここからまとめて復習もできるよ（2回連続で正解すると卒業）。`;
   const list = document.getElementById("set-list");
   list.innerHTML = "";
   LEVELS.forEach(L => {
@@ -264,6 +300,25 @@ function renderHome() {
       row.appendChild(btn);
       list.appendChild(row);
     }
+  });
+  // 熟語セット一覧
+  const ilist = document.getElementById("idiom-list");
+  ilist.innerHTML = "";
+  const idone = IDIOM_SETS.filter((_, k) => state.idiomCleared[k]).length;
+  const ihead = document.createElement("p");
+  ihead.className = "level-head";
+  ihead.textContent = `熟語 全${IDIOM_SETS.length}セット（${idone} / ${IDIOM_SETS.length} セット クリア）`;
+  ilist.appendChild(ihead);
+  IDIOM_SETS.forEach((s, k) => {
+    const row = document.createElement("div");
+    row.className = "set-row";
+    const badge = state.idiomCleared[k] ? ' <span class="badge done">クリア済み</span>' : "";
+    row.innerHTML = `<span>熟語セット ${k + 1}${badge}</span>`;
+    const btn = document.createElement("button");
+    btn.textContent = state.idiomCleared[k] ? "見直す" : "覚える";
+    btn.onclick = () => openIdiomStudy(k);
+    row.appendChild(btn);
+    ilist.appendChild(row);
   });
 }
 
@@ -294,16 +349,59 @@ function openStudy(i) {
   show("view-study");
 }
 
+let currentIdiomSet = 0;
+function openIdiomStudy(i) {
+  currentIdiomSet = i;
+  document.getElementById("idiom-study-title").textContent = `熟語セット${i + 1}（10個）`;
+  const tb = document.getElementById("idiom-table");
+  tb.innerHTML = "";
+  IDIOM_SETS[i].forEach((w, j) => {
+    const tr = document.createElement("tr");
+    const learned = state.idiomLearned[i] && state.idiomLearned[i][j];
+    tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    const td = document.createElement("td");
+    const b = document.createElement("button");
+    b.className = "mini " + (learned ? "learned" : "not-yet");
+    b.textContent = learned ? "覚えた ✓" : "覚えた";
+    b.onclick = () => {
+      if (!state.idiomLearned[i]) state.idiomLearned[i] = {};
+      state.idiomLearned[i][j] = !state.idiomLearned[i][j];
+      save(); openIdiomStudy(i);
+    };
+    td.appendChild(b); tr.appendChild(td); tb.appendChild(tr);
+  });
+  const all = IDIOM_SETS[i].every((_, j) => state.idiomLearned[i] && state.idiomLearned[i][j]);
+  const btn = document.getElementById("idiom-to-test-btn");
+  btn.disabled = !all;
+  btn.textContent = all ? "テストをする" : "全部「覚えた」を押すとテストできるよ";
+  show("view-idiom-study");
+}
+
+function startIdiomTest() {
+  const i = currentIdiomSet;
+  quiz = [];
+  IDIOM_SETS[i].forEach(w => quiz.push(makeQ(w, "今回の熟語セット", ALL_IDIOMS, "i:")));
+  // 苦手な熟語を混ぜる（今回のセットと重複しないもの、間違えた回数が多い順の上位から最大5問）
+  const inQuiz = new Set(quiz.map(q => q.w[0]));
+  const pool = ALL_IDIOMS.filter(w => state.missed[idiomKey(w)] && !inQuiz.has(w[0]));
+  pool.sort((a, b) => (state.missed[idiomKey(b)].m || 0) - (state.missed[idiomKey(a)].m || 0));
+  sample(pool.slice(0, 10), 5).forEach(w => quiz.push(makeQ(w, "苦手な単語の復習", ALL_IDIOMS, "i:")));
+  quiz = shuffle(quiz);
+  quizMode = "idiom"; quizIdx = 0; quizScore = {};
+  show("view-quiz"); renderQ();
+}
+
 function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 function sample(a, n) { return shuffle(a).slice(0, n); }
 
-function makeQ(wordPair, tag, allWords) {
+function makeQ(wordPair, tag, allWords, keyPrefix) {
   const enToJa = Math.random() < 0.6;
   const others = sample(allWords.filter(w => w !== wordPair), 3);
+  const key = (keyPrefix || "") + wordPair[0]; // 苦手プール用キー（熟語は "i:" 接頭辞付き）
   if (enToJa) {
-    return { tag, w: wordPair, q: wordPair[0], label: "意味はどれ？", choices: shuffle([wordPair[1], ...others.map(w => w[1])]), answer: wordPair[1] };
+    return { tag, w: wordPair, key, q: wordPair[0], label: "意味はどれ？", choices: shuffle([wordPair[1], ...others.map(w => w[1])]), answer: wordPair[1] };
   }
-  return { tag, w: wordPair, q: wordPair[1], label: "英語ではどれ？", choices: shuffle([wordPair[0], ...others.map(w => w[0])]), answer: wordPair[0] };
+  return { tag, w: wordPair, key, q: wordPair[1], label: "英語ではどれ？", choices: shuffle([wordPair[0], ...others.map(w => w[0])]), answer: wordPair[0] };
 }
 
 const ALL = SETS.flat();
@@ -311,7 +409,7 @@ const ALL = SETS.flat();
 // 回答を苦手プールに反映：間違えたら登録（連続正解リセット）、正解したら連続正解+1、2回連続で卒業
 function recordAnswer(q, ok) {
   if (!q || !q.w) return;
-  const en = q.w[0];
+  const en = q.key || q.w[0];
   const m = state.missed[en];
   if (ok) {
     if (m) { m.s = (m.s || 0) + 1; if (m.s >= 2) delete state.missed[en]; }
@@ -358,8 +456,12 @@ function startPlacement() {
 
 function startMissedReview() {
   const pool = ALL.filter(w => state.missed[w[0]]);
-  if (!pool.length) return;
-  quiz = sample(pool, 10).map(w => makeQ(w, "苦手な単語の復習", ALL));
+  const ipool = ALL_IDIOMS.filter(w => state.missed[idiomKey(w)]);
+  if (!pool.length && !ipool.length) return;
+  quiz = [];
+  sample(pool, 7).forEach(w => quiz.push(makeQ(w, "苦手な単語の復習", ALL)));
+  sample(ipool, 5).forEach(w => quiz.push(makeQ(w, "苦手な単語の復習", ALL_IDIOMS, "i:")));
+  quiz = shuffle(quiz).slice(0, 12);
   quizMode = "review"; quizIdx = 0; quizScore = {};
   show("view-quiz"); renderQ();
 }
@@ -418,7 +520,17 @@ function finishQuiz() {
     document.getElementById("result-title").textContent = "苦手な単語の復習テスト";
     document.getElementById("result-score").textContent = `${r.ok} / ${r.total}`;
     const left = Object.keys(state.missed).length;
-    document.getElementById("result-detail").textContent = left ? `残りの苦手な単語は ${left} 語。2回連続で正解すると卒業だよ。` : "苦手な単語は全部卒業！すごい 🎉";
+    document.getElementById("result-detail").textContent = left ? `残りの苦手な単語・熟語は ${left} 件。2回連続で正解すると卒業だよ。` : "苦手な単語・熟語は全部卒業！すごい 🎉";
+  } else if (quizMode === "idiom") {
+    const main = quizScore["今回の熟語セット"] || { ok: 0, total: 10 };
+    const pct = Math.round(main.ok / main.total * 100);
+    document.getElementById("result-title").textContent = `熟語セット${currentIdiomSet + 1} の結果`;
+    document.getElementById("result-score").textContent = `${pct}%`;
+    let detail = `今回の熟語セット： ${main.ok} / ${main.total}`;
+    if (quizScore["苦手な単語の復習"]) detail += ` ・ 苦手な熟語： ${quizScore["苦手な単語の復習"].ok} / ${quizScore["苦手な単語の復習"].total}`;
+    if (pct >= 80) { state.idiomCleared[currentIdiomSet] = true; save(); detail += "\nクリア！次の熟語セットに進めるよ 🎉"; }
+    else detail += "\nクリアは80%から。間違えた熟語だけ見直してもう一度やってみよう。";
+    document.getElementById("result-detail").textContent = detail;
   } else {
     const main = quizScore["今回のセット"] || { ok: 0, total: 10 };
     const pct = Math.round(main.ok / main.total * 100);
@@ -454,6 +566,8 @@ function importState() {
     if (!obj || typeof obj !== "object" || !obj.learned || !obj.cleared) throw new Error("invalid");
     state = obj;
     if (!state.missed) state.missed = {};
+    if (!state.idiomLearned) state.idiomLearned = {};
+    if (!state.idiomCleared) state.idiomCleared = {};
     if (typeof state.startSet !== "number") state.startSet = 0;
     if (typeof state.placementDone !== "boolean") state.placementDone = false;
     save(); renderHome();
@@ -467,7 +581,7 @@ function importState() {
 function resetAll() {
   if (!confirm("進み具合を全部消す？")) return;
   localStorage.removeItem(KEY);
-  state = { learned: {}, cleared: {}, placementDone: false, startSet: 0, missed: {} };
+  state = { learned: {}, cleared: {}, placementDone: false, startSet: 0, missed: {}, idiomLearned: {}, idiomCleared: {} };
   renderHome();
 }
 
