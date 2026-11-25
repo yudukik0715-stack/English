@@ -58,14 +58,9 @@
     <button onclick="startMissedReview()">苦手な単語だけテストする</button>
   </div>
   <div class="card">
-    <p><strong>セット一覧</strong></p>
-    <p class="note">単語表で覚える → 「覚えた」を押す → テスト。テストには<strong>前回のセット</strong>と<strong>5回前のセット</strong>の復習に加えて、<strong>間違えた単語（苦手な単語）</strong>も多めに混ざるよ。レベル1を終えたらレベル2、レベル3へと上がっていこう。</p>
-    <div id="set-list"></div>
-  </div>
-  <div class="card">
-    <p><strong>熟語（イディオム）</strong></p>
-    <p class="note">共通テスト・大学入試でよく出る熟語・句動詞が100個（10セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。</p>
-    <div id="idiom-list"></div>
+    <p><strong>レベルを選ぶ</strong></p>
+    <p class="note">レベルごとにページが分かれているよ。選ぶと、そのレベルのセット一覧が開くよ。</p>
+    <div id="level-cards"></div>
   </div>
   <div class="card">
     <p><strong>進み具合のバックアップ</strong></p>
@@ -83,6 +78,16 @@
   </div>
 </div>
 
+<!-- レベル別ページ -->
+<div id="view-level" class="hidden">
+  <div class="card">
+    <p><strong id="level-page-title"></strong></p>
+    <p class="note" id="level-page-note"></p>
+    <div id="level-set-list"></div>
+    <button class="sub-btn" onclick="goHome()">ホームに戻る</button>
+  </div>
+</div>
+
 <!-- 学習（単語表） -->
 <div id="view-study" class="hidden">
   <div class="card">
@@ -92,7 +97,7 @@
       <tbody id="word-table"></tbody>
     </table>
     <button id="to-test-btn" onclick="startTest()" disabled>テストをする</button>
-    <button class="sub-btn" onclick="goHome()">一覧に戻る</button>
+    <button class="sub-btn" onclick="backFromStudy()">セット一覧に戻る</button>
   </div>
 </div>
 
@@ -105,7 +110,7 @@
       <tbody id="idiom-table"></tbody>
     </table>
     <button id="idiom-to-test-btn" onclick="startIdiomTest()" disabled>テストをする</button>
-    <button class="sub-btn" onclick="goHome()">一覧に戻る</button>
+    <button class="sub-btn" onclick="backFromIdiomStudy()">セット一覧に戻る</button>
   </div>
 </div>
 
@@ -126,7 +131,7 @@
     <p style="text-align:center" id="result-title">結果</p>
     <p class="big-score" id="result-score"></p>
     <p class="note" id="result-detail" style="text-align:center"></p>
-    <button onclick="goHome()">一覧に戻る</button>
+    <button onclick="backFromResult()">一覧に戻る</button>
   </div>
 </div>
 
@@ -298,7 +303,7 @@ let currentSet = 0;
 let quiz = [], quizIdx = 0, quizScore = {}, quizAnswered = false, quizMode = "";
 
 function show(id) {
-  ["view-home","view-study","view-idiom-study","view-quiz","view-result"].forEach(v => document.getElementById(v).classList.add("hidden"));
+  ["view-home","view-level","view-study","view-idiom-study","view-quiz","view-result"].forEach(v => document.getElementById(v).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   window.scrollTo(0,0);
 }
@@ -314,37 +319,70 @@ function renderHome() {
   const missedCount = Object.keys(state.missed || {}).length;
   document.getElementById("missed-card").style.display = missedCount ? "block" : "none";
   if (missedCount) document.getElementById("missed-count").textContent = `テストで間違えた単語・熟語が ${missedCount} 件たまっているよ。各セットのテストにも多めに出てくるし、ここからまとめて復習もできるよ（2回連続で正解すると卒業）。`;
-  const list = document.getElementById("set-list");
-  list.innerHTML = "";
-  LEVELS.forEach(L => {
-    const head = document.createElement("p");
-    head.className = "level-head";
+  renderLevelCards();
+}
+
+// ホームの「レベルを選ぶ」カード群（各レベルの進み具合つき）
+function renderLevelCards() {
+  const box = document.getElementById("level-cards");
+  box.innerHTML = "";
+  LEVELS.forEach((L, li) => {
     const doneCount = SETS.slice(L.start, L.start + L.count).filter((_, k) => state.cleared[L.start + k]).length;
-    head.textContent = `${L.name}（${doneCount} / ${L.count} セット クリア）`;
-    list.appendChild(head);
-    for (let k = 0; k < L.count; k++) {
-      const i = L.start + k;
-      const row = document.createElement("div");
-      row.className = "set-row";
-      let badge = "";
-      if (state.cleared[i]) badge = '<span class="badge done">クリア済み</span>';
-      else if (i < state.startSet) badge = '<span class="badge">診断でスキップ可</span>';
-      row.innerHTML = `<span>セット ${k + 1} ${badge}</span>`;
-      const btn = document.createElement("button");
-      btn.textContent = state.cleared[i] ? "見直す" : "覚える";
-      btn.onclick = () => openStudy(i);
-      row.appendChild(btn);
-      list.appendChild(row);
-    }
+    const row = document.createElement("div");
+    row.className = "set-row";
+    row.innerHTML = `<span><strong>${L.name}</strong> <span class="badge ${doneCount === L.count ? "done" : ""}">${doneCount} / ${L.count} セット クリア</span></span>`;
+    const btn = document.createElement("button");
+    btn.textContent = "開く";
+    btn.onclick = () => openLevelPage(li);
+    row.appendChild(btn);
+    box.appendChild(row);
   });
-  // 熟語セット一覧
-  const ilist = document.getElementById("idiom-list");
-  ilist.innerHTML = "";
   const idone = IDIOM_SETS.filter((_, k) => state.idiomCleared[k]).length;
-  const ihead = document.createElement("p");
-  ihead.className = "level-head";
-  ihead.textContent = `熟語 全${IDIOM_SETS.length}セット（${idone} / ${IDIOM_SETS.length} セット クリア）`;
-  ilist.appendChild(ihead);
+  const row = document.createElement("div");
+  row.className = "set-row";
+  row.innerHTML = `<span><strong>熟語（イディオム）</strong> <span class="badge ${idone === IDIOM_SETS.length ? "done" : ""}">${idone} / ${IDIOM_SETS.length} セット クリア</span></span>`;
+  const btn = document.createElement("button");
+  btn.textContent = "開く";
+  btn.onclick = () => openIdiomPage();
+  row.appendChild(btn);
+  box.appendChild(row);
+}
+
+// レベル別ページ（単語）：そのレベルのセット一覧だけを表示
+let currentPage = null; // { type: "level", level: index } or { type: "idiom" }
+function openLevelPage(li) {
+  currentPage = { type: "level", level: li };
+  const L = LEVELS[li];
+  const doneCount = SETS.slice(L.start, L.start + L.count).filter((_, k) => state.cleared[L.start + k]).length;
+  document.getElementById("level-page-title").textContent = `${L.name}（${doneCount} / ${L.count} セット クリア）`;
+  document.getElementById("level-page-note").innerHTML = "単語表で覚える → 「覚えた」を押す → テスト。テストには<strong>前回のセット</strong>と<strong>5回前のセット</strong>の復習に加えて、<strong>間違えた単語（苦手な単語）</strong>も多めに混ざるよ。";
+  const list = document.getElementById("level-set-list");
+  list.innerHTML = "";
+  for (let k = 0; k < L.count; k++) {
+    const i = L.start + k;
+    const row = document.createElement("div");
+    row.className = "set-row";
+    let badge = "";
+    if (state.cleared[i]) badge = '<span class="badge done">クリア済み</span>';
+    else if (i < state.startSet) badge = '<span class="badge">診断でスキップ可</span>';
+    row.innerHTML = `<span>セット ${k + 1} ${badge}</span>`;
+    const btn = document.createElement("button");
+    btn.textContent = state.cleared[i] ? "見直す" : "覚える";
+    btn.onclick = () => openStudy(i);
+    row.appendChild(btn);
+    list.appendChild(row);
+  }
+  show("view-level");
+}
+
+// レベル別ページ（熟語）
+function openIdiomPage() {
+  currentPage = { type: "idiom" };
+  const idone = IDIOM_SETS.filter((_, k) => state.idiomCleared[k]).length;
+  document.getElementById("level-page-title").textContent = `熟語（イディオム）（${idone} / ${IDIOM_SETS.length} セット クリア）`;
+  document.getElementById("level-page-note").innerHTML = "共通テスト・大学入試でよく出る熟語・句動詞が100個（10セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。";
+  const list = document.getElementById("level-set-list");
+  list.innerHTML = "";
   IDIOM_SETS.forEach((s, k) => {
     const row = document.createElement("div");
     row.className = "set-row";
@@ -354,8 +392,18 @@ function renderHome() {
     btn.textContent = state.idiomCleared[k] ? "見直す" : "覚える";
     btn.onclick = () => openIdiomStudy(k);
     row.appendChild(btn);
-    ilist.appendChild(row);
+    list.appendChild(row);
   });
+  show("view-level");
+}
+
+// 学習・結果画面からの戻り先：該当レベルのページへ（診断・苦手復習の結果からはホームへ）
+function backFromStudy() { openLevelPage(LEVELS.indexOf(levelOf(currentSet))); }
+function backFromIdiomStudy() { openIdiomPage(); }
+function backFromResult() {
+  if (quizMode === "set") openLevelPage(LEVELS.indexOf(levelOf(currentSet)));
+  else if (quizMode === "idiom") openIdiomPage();
+  else goHome();
 }
 
 function openStudy(i) {
