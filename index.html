@@ -497,15 +497,8 @@ function openStudy(i) {
   SETS[i].forEach((w, j) => {
     const tr = document.createElement("tr");
     const learned = state.learned[i] && state.learned[i][j];
-    const ptd = document.createElement("td");
-    ptd.className = "playcell";
-    const pb = document.createElement("button");
-    pb.className = "mini play";
-    pb.textContent = "▶";
-    pb.onclick = () => speak(w[0]);
-    ptd.appendChild(pb);
-    tr.appendChild(ptd);
-    tr.innerHTML += `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    tr.innerHTML = `<td class="playcell"><button class="mini play">▶</button></td><td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    tr.querySelector(".play").onclick = () => speak(w[0]);
     const td = document.createElement("td");
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
@@ -533,15 +526,8 @@ function openIdiomStudy(i) {
   IDIOM_SETS[i].forEach((w, j) => {
     const tr = document.createElement("tr");
     const learned = state.idiomLearned[i] && state.idiomLearned[i][j];
-    const ptd = document.createElement("td");
-    ptd.className = "playcell";
-    const pb = document.createElement("button");
-    pb.className = "mini play";
-    pb.textContent = "▶";
-    pb.onclick = () => speak(w[0]);
-    ptd.appendChild(pb);
-    tr.appendChild(ptd);
-    tr.innerHTML += `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    tr.innerHTML = `<td class="playcell"><button class="mini play">▶</button></td><td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    tr.querySelector(".play").onclick = () => speak(w[0]);
     const td = document.createElement("td");
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
