@@ -39,7 +39,8 @@
   .level-head { font-size: 15px; font-weight: 700; color: #3b6fe0; margin: 16px 0 4px; }
   .level-head:first-child { margin-top: 4px; }
   textarea { width: 100%; margin-top: 10px; padding: 10px; border: 1px solid #ccd3e0; border-radius: 10px; font-size: 12px; font-family: monospace; }
-</style>
+    button.play { margin-right: 6px; }
+  </style>
 </head>
 <body>
 <h1>英単語トレーニング</h1>
@@ -451,7 +452,7 @@ function openIdiomPage() {
   currentPage = { type: "idiom" };
   const idone = IDIOM_SETS.filter((_, k) => state.idiomCleared[k]).length;
   document.getElementById("level-page-title").textContent = `熟語（イディオム）（${idone} / ${IDIOM_SETS.length} セット クリア）`;
-  document.getElementById("level-page-note").innerHTML = "共通テスト・大学入試でよく出る熟語・句動詞が300個（30セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。";
+  document.getElementById("level-page-note").innerHTML = "共通テスト・大学入試でよく出る熟語・句動詞が330個（33セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。";
   const list = document.getElementById("level-set-list");
   list.innerHTML = "";
   IDIOM_SETS.forEach((s, k) => {
@@ -477,6 +478,16 @@ function backFromResult() {
   else goHome();
 }
 
+function speak(text) {
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 0.9;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
 function openStudy(i) {
   currentSet = i;
   document.getElementById("study-title").textContent = `${setLabel(i)}（10語）`;
@@ -487,6 +498,11 @@ function openStudy(i) {
     const learned = state.learned[i] && state.learned[i][j];
     tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
     const td = document.createElement("td");
+    const pb = document.createElement("button");
+    pb.className = "mini play";
+    pb.textContent = "▶";
+    pb.onclick = () => speak(w[0]);
+    td.appendChild(pb);
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
     b.textContent = learned ? "覚えた ✓" : "覚えた";
@@ -515,6 +531,11 @@ function openIdiomStudy(i) {
     const learned = state.idiomLearned[i] && state.idiomLearned[i][j];
     tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
     const td = document.createElement("td");
+    const pb = document.createElement("button");
+    pb.className = "mini play";
+    pb.textContent = "▶";
+    pb.onclick = () => speak(w[0]);
+    td.appendChild(pb);
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
     b.textContent = learned ? "覚えた ✓" : "覚えた";
