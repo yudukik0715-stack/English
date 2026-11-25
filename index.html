@@ -43,7 +43,7 @@
 </head>
 <body>
 <h1>英単語トレーニング</h1>
-<p class="sub">英検2級レベル ・ レベル1〜4 ・ 単語1100語 ＋ 熟語100個</p>
+<p class="sub">英検2級レベル ・ レベル1〜4 ・ 単語1100語 ＋ 熟語300個</p>
 
 <!-- ホーム -->
 <div id="view-home">
@@ -260,7 +260,7 @@ SETS.push(
 [["ensure","確実にする・保証する"],["enable","可能にする"],["involve","含む・関与する"],["concern","関係する・心配させる"],["matter","重要である"],["lack","欠く・不足する"],["deserve","〜に値する"],["remark","言及する・意見"],["comment","意見・コメントする"],["mention","言及する"]]
 );
 
-// 熟語（イディオム・句動詞）：単語とは別配列。共通テスト・大学入試頻出ベース。10セット × 10個 ＝ 100個
+// 熟語（イディオム・句動詞）：単語とは別配列。共通テスト・大学入試頻出ベース。30セット × 10個 ＝ 300個
 const IDIOM_SETS = [
 [["account for","〜を説明する・〜を占める"],["bring about","〜を引き起こす"],["carry out","〜を実行する"],["come up with","〜を思いつく"],["make up for","〜の埋め合わせをする"],["put off","〜を延期する"],["result in","〜という結果になる"],["result from","〜が原因で生じる"],["stand for","〜を表す・象徴する"],["take into account","〜を考慮に入れる"]],
 [["look forward to","〜を楽しみに待つ"],["take part in","〜に参加する"],["be familiar with","〜に詳しい・よく知っている"],["in addition to","〜に加えて"],["be responsible for","〜に責任がある"],["be interested in","〜に興味がある"],["be proud of","〜を誇りに思う"],["be satisfied with","〜に満足している"],["be known for","〜で知られている"],["be different from","〜と異なる"]],
@@ -273,6 +273,26 @@ const IDIOM_SETS = [
 [["at most","多くとも"],["at first","最初は"],["at last","ついに"],["by chance","偶然に"],["by mistake","間違って"],["be likely to","〜しそうである"],["be willing to","進んで〜する"],["be about to","まさに〜しようとしている"],["be eager to","〜したがる"],["be ready to","〜する準備ができている"]],
 [["tend to","〜しがちである"],["have no choice but to","〜するしかない"],["be opposed to","〜に反対である"],["be aware of","〜に気づいている"],["be capable of","〜する能力がある"],["according to","〜によると"],["because of","〜のために（原因）"],["instead of","〜の代わりに"],["in spite of","〜にもかかわらず"],["in terms of","〜の点では"]]
 ];
+IDIOM_SETS.push([["get over", "（困難・病気を）乗り越える"], ["get through", "切り抜ける、終える"], ["get along with", "（人と）仲良くやっていく"], ["get used to", "〜に慣れる"], ["get in touch with", "〜と連絡を取る"], ["get away with", "（罰などを）逃れる"], ["get by", "なんとかやっていく"], ["get together", "集まる"], ["get down to", "〜に本気で取りかかる"], ["get hold of", "〜を手に入れる、つかむ"]]);
+IDIOM_SETS.push([["take over", "引き継ぐ"], ["take on", "引き受ける、雇う"], ["take up", "（趣味などを）始める、占める"], ["take turns", "交代でする"], ["take after", "（親などに）似ている"], ["take for granted", "〜を当然のことと思う"], ["take action", "行動を起こす"], ["take effect", "（法律・薬が）効力を発する"], ["take one's time", "ゆっくり時間をかける"], ["take into consideration", "〜を考慮に入れる"]]);
+IDIOM_SETS.push([["put up with", "〜を我慢する"], ["put forward", "（案を）提案する"], ["put away", "片づける"], ["put down", "書き留める、置く"], ["put together", "組み立てる"], ["put an end to", "〜を終わらせる"], ["put into practice", "実行する"], ["put pressure on", "〜に圧力をかける"], ["put out", "（火・明かりを）消す"], ["put aside", "取っておく、脇に置く"]]);
+IDIOM_SETS.push([["come true", "実現する"], ["come to an end", "終わる"], ["come to light", "明らかになる"], ["come into effect", "（法律などが）施行される"], ["come about", "（出来事が）起こる"], ["come out", "（本などが）出版される、現れる"], ["come down with", "（病気）にかかる"], ["come forward", "名乗り出る"], ["come up against", "（困難に）直面する"], ["come to terms with", "（現実と）折り合いをつける"]]);
+IDIOM_SETS.push([["go on", "続ける、続く"], ["go through", "経験する、調べる"], ["go wrong", "うまくいかない"], ["go ahead", "先に進める、どうぞ"], ["go along with", "〜に同意する"], ["go over", "見直す、検討する"], ["go by", "（時が）過ぎる、〜に従う"], ["go without", "〜なしで済ませる"], ["go out of one's way", "わざわざ〜する"], ["go so far as to", "〜までする"]]);
+IDIOM_SETS.push([["look into", "調べる"], ["look up", "（辞書などで）調べる、見上げる"], ["look down on", "見下す"], ["look up to", "尊敬する"], ["look after", "世話をする"], ["look out", "気をつける"], ["look over", "ざっと目を通す"], ["look through", "目を通す"], ["look back on", "振り返る"], ["look to", "〜を頼る、期待する"]]);
+IDIOM_SETS.push([["turn down", "断る、（音量を）下げる"], ["turn up", "現れる、（音量を）上げる"], ["turn in", "提出する"], ["turn to", "〜に頼る"], ["turn into", "〜に変わる"], ["break into", "押し入る"], ["break up", "解散する、別れる"], ["break off", "中断する"], ["break through", "突破する"], ["break the law", "法律を破る"]]);
+IDIOM_SETS.push([["make out", "理解する、見分ける"], ["make up", "作り上げる、仲直りする"], ["make a difference", "違いを生む、影響を与える"], ["make an effort", "努力する"], ["make fun of", "〜をからかう"], ["make sense", "意味をなす、理にかなう"], ["make the most of", "〜を最大限に活用する"], ["make a living", "生計を立てる"], ["carry on", "続ける"], ["be carried away", "夢中になる、調子に乗る"]]);
+IDIOM_SETS.push([["set up", "設立する、準備する"], ["set out", "出発する、始める"], ["set off", "出発する、引き起こす"], ["set aside", "取っておく"], ["set fire to", "〜に火をつける"], ["pick up", "拾う、迎えに行く、身につける"], ["pick out", "選ぶ"], ["hold on", "待つ、つかまる"], ["hold back", "抑える、ためらう"], ["hold up", "遅らせる、持ちこたえる"]]);
+IDIOM_SETS.push([["fall asleep", "眠り込む"], ["fall behind", "遅れる"], ["fall in love with", "〜に恋をする"], ["fall into", "〜に陥る"], ["fall short of", "〜に不足する、届かない"], ["keep up with", "〜に遅れずについていく"], ["keep on", "続ける"], ["keep track of", "〜を記録する、把握する"], ["keep an eye on", "〜を見張る、注意する"], ["keep in touch with", "〜と連絡を取り合う"]]);
+IDIOM_SETS.push([["cut down", "削減する"], ["cut off", "切り離す、中断する"], ["cut back on", "〜を減らす"], ["pass away", "亡くなる"], ["pass on", "伝える、手渡す"], ["pass out", "気絶する"], ["work out", "うまくいく、解く、運動する"], ["work on", "〜に取り組む"], ["figure out", "理解する、解決する"], ["point out", "指摘する"]]);
+IDIOM_SETS.push([["end up", "結局〜になる"], ["show up", "現れる"], ["hand in", "提出する"], ["hand out", "配る"], ["catch up with", "〜に追いつく"], ["count on", "〜を頼る、当てにする"], ["rely on", "〜に頼る、依存する"], ["add up to", "総計〜になる"], ["back up", "支持する、裏づける"], ["calm down", "落ち着く、落ち着かせる"]]);
+IDIOM_SETS.push([["give in", "屈する、降参する"], ["give away", "ただで与える、明かす"], ["give off", "（におい・熱などを）発する"], ["give out", "配る、尽きる"], ["give way", "崩れる、譲る"], ["call for", "〜を必要とする、求める"], ["call on", "訪問する、〜に求める"], ["call up", "電話をかける"], ["cheer up", "元気づける、元気になる"], ["clear up", "晴れる、片づける、解明する"]]);
+IDIOM_SETS.push([["close down", "閉鎖する"], ["do away with", "〜を廃止する"], ["do without", "〜なしで済ます"], ["drop out", "中退する、脱落する"], ["face up to", "〜に直面する"], ["fill in", "（空欄に）記入する"], ["fill out", "（申込書などを）記入する"], ["grow up", "成長する"], ["live up to", "（期待に）応える"], ["occur to", "（考えが）思い浮かぶ"]]);
+IDIOM_SETS.push([["suffer from", "〜に苦しむ"], ["recover from", "〜から回復する"], ["graduate from", "〜を卒業する"], ["escape from", "〜から逃げる"], ["apologize for", "〜を謝る"], ["complain about", "〜について不満を言う"], ["object to", "〜に反対する"], ["amount to", "結局〜になる、総計〜に達する"], ["adapt to", "〜に適応する"], ["adjust to", "〜に慣れる、適応する"]]);
+IDIOM_SETS.push([["be made up of", "〜から構成されている"], ["be filled with", "〜で満たされている"], ["be covered with", "〜で覆われている"], ["be crowded with", "〜で混雑している"], ["be known as", "〜として知られている"], ["be divided into", "〜に分けられる"], ["be located in", "〜に位置している"], ["be rich in", "〜に富んでいる"], ["be short of", "〜が不足している"], ["be sick of", "〜にうんざりしている"]]);
+IDIOM_SETS.push([["be similar to", "〜に似ている"], ["be superior to", "〜より優れている"], ["be inferior to", "〜より劣っている"], ["be equal to", "〜に等しい"], ["be subject to", "〜を受けやすい、〜次第である"], ["be exposed to", "〜にさらされる"], ["be devoted to", "〜に献身している"], ["be engaged in", "〜に従事している"], ["be independent of", "〜から独立している"], ["be used to", "〜に慣れている"]]);
+IDIOM_SETS.push([["in other words", "言い換えれば"], ["in the long run", "長い目で見れば"], ["in the meantime", "その間に"], ["in case", "〜の場合に備えて"], ["in short", "要するに"], ["in brief", "簡単に言えば"], ["in conclusion", "結論として"], ["in detail", "詳しく"], ["in vain", "無駄に"], ["in a hurry", "急いで"]]);
+IDIOM_SETS.push([["on behalf of", "〜を代表して、〜のために"], ["on the contrary", "それどころか、反対に"], ["on the whole", "全体として"], ["at the same time", "同時に"], ["at the expense of", "〜を犠牲にして"], ["by all means", "ぜひ、もちろん"], ["by no means", "決して〜ない"], ["out of control", "制御できない"], ["out of the question", "問題外である、あり得ない"], ["for the time being", "当分の間"]]);
+IDIOM_SETS.push([["no matter how", "どんなに〜でも"], ["even if", "たとえ〜でも"], ["even though", "〜にもかかわらず"], ["whether or not", "〜かどうか"], ["rather than", "〜ではなく"], ["other than", "〜以外"], ["in contrast", "対照的に"], ["in accordance with", "〜に従って、〜に基づいて"], ["with regard to", "〜に関して"], ["when it comes to", "〜のこととなると"]]);
 const ALL_IDIOMS = IDIOM_SETS.flat();
 function idiomKey(w) { return "i:" + w[0]; } // 苦手プールで単語と衝突しないよう接頭辞を付ける
 
@@ -380,7 +400,7 @@ function openIdiomPage() {
   currentPage = { type: "idiom" };
   const idone = IDIOM_SETS.filter((_, k) => state.idiomCleared[k]).length;
   document.getElementById("level-page-title").textContent = `熟語（イディオム）（${idone} / ${IDIOM_SETS.length} セット クリア）`;
-  document.getElementById("level-page-note").innerHTML = "共通テスト・大学入試でよく出る熟語・句動詞が100個（10セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。";
+  document.getElementById("level-page-note").innerHTML = "共通テスト・大学入試でよく出る熟語・句動詞が300個（30セット × 10個）。単語と同じ流れだよ：熟語表で覚える → 「覚えた」を押す → テスト。間違えた熟語は<strong>苦手リスト</strong>に入って、復習で出てくるよ。";
   const list = document.getElementById("level-set-list");
   list.innerHTML = "";
   IDIOM_SETS.forEach((s, k) => {
