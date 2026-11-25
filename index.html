@@ -43,7 +43,7 @@
 </head>
 <body>
 <h1>英単語トレーニング</h1>
-<p class="sub">英検2級レベル ・ レベル1〜6 ・ 単語1320語 ＋ 熟語300個</p>
+<p class="sub">英検2級レベル ・ レベル1〜8 ・ 単語1530語 ＋ 熟語330個</p>
 
 <!-- ホーム -->
 <div id="view-home">
@@ -293,6 +293,9 @@ IDIOM_SETS.push([["be similar to", "〜に似ている"], ["be superior to", "�
 IDIOM_SETS.push([["in other words", "言い換えれば"], ["in the long run", "長い目で見れば"], ["in the meantime", "その間に"], ["in case", "〜の場合に備えて"], ["in short", "要するに"], ["in brief", "簡単に言えば"], ["in conclusion", "結論として"], ["in detail", "詳しく"], ["in vain", "無駄に"], ["in a hurry", "急いで"]]);
 IDIOM_SETS.push([["on behalf of", "〜を代表して、〜のために"], ["on the contrary", "それどころか、反対に"], ["on the whole", "全体として"], ["at the same time", "同時に"], ["at the expense of", "〜を犠牲にして"], ["by all means", "ぜひ、もちろん"], ["by no means", "決して〜ない"], ["out of control", "制御できない"], ["out of the question", "問題外である、あり得ない"], ["for the time being", "当分の間"]]);
 IDIOM_SETS.push([["no matter how", "どんなに〜でも"], ["even if", "たとえ〜でも"], ["even though", "〜にもかかわらず"], ["whether or not", "〜かどうか"], ["rather than", "〜ではなく"], ["other than", "〜以外"], ["in contrast", "対照的に"], ["in accordance with", "〜に従って、〜に基づいて"], ["with regard to", "〜に関して"], ["when it comes to", "〜のこととなると"]]);
+IDIOM_SETS.push([["such as", "〜のような"], ["for example", "例えば"], ["in addition", "さらに、その上"], ["in order to", "〜するために"], ["as well", "〜もまた"], ["due to", "〜のために、〜が原因で"], ["thanks to", "〜のおかげで"], ["by the way", "ところで"], ["to begin with", "まず第一に、そもそも"], ["as it is", "実際のところ、そのままで"]]);
+IDIOM_SETS.push([["be going to", "〜するつもりである、〜しそうである"], ["take to", "〜が好きになる、〜にふける"], ["make a mistake", "間違える、誤りを犯す"], ["have to do with", "〜と関係がある"], ["be required to", "〜することが求められている"], ["be surprised to", "〜して驚く"], ["be scared of", "〜を怖がっている"], ["derive from", "〜に由来する"], ["by oneself", "一人で、独力で"], ["face to face", "向かい合って、対面して"]]);
+IDIOM_SETS.push([["at the end of", "〜の終わりに"], ["by the end of", "〜の終わりまでには"], ["at the age of", "〜歳の時に"], ["for free", "無料で"], ["on the way", "途中で、道の途中で"], ["all the time", "いつも、ずっと"], ["all year round", "一年中"], ["in the future", "将来、今後"], ["as high as", "〜もの高さで、〜も"], ["as low as", "わずか〜まで、〜もの低さで"]]);
 const ALL_IDIOMS = IDIOM_SETS.flat();
 function idiomKey(w) { return "i:" + w[0]; } // 苦手プールで単語と衝突しないよう接頭辞を付ける
 
@@ -319,13 +322,37 @@ SETS.push([["major", "主要な・専攻"], ["national", "国の・国民の"], 
 SETS.push([["several", "いくつかの"], ["huge", "巨大な"], ["wise", "賢い"], ["straight", "まっすぐな・直接の"], ["fit", "合う・健康な"], ["miss", "逃す・恋しく思う"], ["deal", "取引・扱う"], ["aim", "目的・狙う"], ["current", "現在の・流れ"], ["variety", "多様性・種類"]]);
 SETS.push([["flyer", "チラシ"], ["recipe", "レシピ・秘訣"], ["cycle", "循環・周期"], ["invention", "発明"], ["everyday", "日常の"], ["voice", "声"], ["outdoor", "屋外の"], ["display", "見せる・展示する"], ["chat", "話す・雑談"], ["musical", "音楽の・ミュージカル"]]);
 
+SETS.push([["find", "見つける・分かる"], ["build", "建てる・築く"], ["watch", "見る・腕時計"], ["break", "壊す・休憩"], ["hit", "打つ・当たる"], ["laugh", "笑う"], ["pick", "選ぶ・拾う"], ["bite", "噛む・噛みつく"], ["thank", "感謝する"], ["let", "〜させる・〜させてあげる"]]);
+SETS.push([["many", "多くの"], ["much", "多量の・非常に"], ["less", "より少ない・より少なく"], ["half", "半分・半分の"], ["million", "100万"], ["enough", "十分な・十分に"], ["least", "最も少ない・（at least）少なくとも"], ["every", "毎〜・すべての"], ["well", "うまく・よく"], ["together", "一緒に"]]);
+SETS.push([["next", "次の・隣の"], ["last", "最後の・この前の"], ["later", "後で・もっと後に"], ["soon", "すぐに・まもなく"], ["early", "早い・早く"], ["ago", "〜前に"], ["since", "〜以来・〜だから"], ["until", "〜まで（ずっと）"], ["afternoon", "午後"], ["friday", "金曜日"]]);
+SETS.push([["around", "〜の周りに・約"], ["without", "〜なしに・〜なしで"], ["inside", "内側・中に"], ["outside", "外側・外に"], ["near", "近い・近くに"], ["away", "離れて・向こうへ"], ["toward", "〜の方へ・〜に向かって"], ["among", "〜の間に・〜の中で"], ["where", "どこ・〜する場所"], ["quickly", "素早く・すぐに"]]);
+SETS.push([["train", "電車・列車"], ["bus", "バス"], ["car", "車・自動車"], ["station", "駅"], ["phone", "電話"], ["computer", "コンピュータ"], ["video", "ビデオ・動画"], ["smartphone", "スマートフォン"], ["item", "項目・品物"], ["card", "カード"]]);
+SETS.push([["gift", "贈り物・才能"], ["photo", "写真"], ["blog", "ブログ"], ["magazine", "雑誌"], ["poster", "ポスター"], ["homework", "宿題"], ["office", "事務所・会社"], ["step", "段階・一歩"], ["piece", "一片・作品"], ["art", "芸術・美術"]]);
+SETS.push([["hall", "ホール・会館"], ["park", "公園・駐車する"], ["restaurant", "レストラン・食堂"], ["concert", "コンサート・演奏会"], ["museum", "博物館・美術館"], ["trip", "旅行"], ["weekend", "週末"], ["meal", "食事"], ["date", "日付・デート"], ["fun", "楽しみ・楽しい"]]);
+SETS.push([["player", "選手・演奏者"], ["classmate", "クラスメート・同級生"], ["mother", "母"], ["father", "父"], ["parent", "親"], ["sister", "姉妹"], ["lover", "愛好家・恋人"], ["please", "どうぞ・〜してください"], ["welcome", "歓迎する・歓迎"], ["middle", "真ん中の・中央"]]);
+SETS.push([["morning", "朝"], ["air", "空気"], ["dark", "暗い・暗闇"], ["sweet", "甘い・優しい"], ["large", "大きい・大規模な"], ["real", "本当の・現実の"], ["wrong", "間違った・悪い"], ["ready", "準備ができた・用意ができて"], ["cheap", "安い・安価な"], ["slowly", "ゆっくりと"]]);
+SETS.push([["heart", "心臓・心"], ["face", "顔・直面する"], ["chair", "椅子"], ["desk", "机"], ["door", "ドア・扉"], ["bag", "かばん・袋"], ["cup", "カップ・杯"], ["dish", "皿・料理"], ["clothes", "衣服・服"], ["map", "地図"]]);
+SETS.push([["animal", "動物"], ["pet", "ペット・愛玩動物"], ["international", "国際的な"], ["south", "南・南の"], ["though", "〜だけれども"], ["cannot", "〜できない"], ["freeze", "凍る・凍らせる"], ["favorite", "お気に入りの・大好きなもの"], ["lot", "たくさん（a lot of）"], ["shoe", "靴（2年出現から補充）"]]);
+SETS.push([["fall", "落ちる・秋"], ["ice", "氷"], ["floor", "床・階"], ["hotel", "ホテル"], ["horse", "馬"], ["light", "光・軽い"], ["tennis", "テニス"], ["taxi", "タクシー"], ["box", "箱"], ["beach", "浜辺・ビーチ"]]);
+SETS.push([["tour", "旅行・ツアー"], ["jump", "跳ぶ・跳び上がる"], ["cream", "クリーム"], ["ticket", "切符・チケット"], ["little", "小さい・少しの"], ["weather", "天気・天候"], ["garden", "庭・庭園"], ["tip", "ヒント・こつ"], ["juice", "ジュース・果汁"], ["handout", "配布資料・プリント"]]);
+SETS.push([["ball", "ボール・球"], ["full", "満ちた・いっぱいの"], ["friendly", "友好的な・親しみやすい"], ["hospital", "病院"], ["satisfy", "満足させる・満たす"], ["american", "アメリカの・アメリカ人"], ["far", "遠く・はるかに"], ["perhaps", "たぶん・おそらく"], ["asian", "アジアの・アジア人"], ["jacket", "ジャケット・上着"]]);
+SETS.push([["january", "1月"], ["september", "9月"], ["february", "2月"], ["monday", "月曜日"], ["tuesday", "火曜日"], ["hello", "こんにちは"], ["beautiful", "美しい・きれいな"], ["successfully", "うまく・成功して"], ["yogurt", "ヨーグルト"], ["earphone", "イヤホン"]]);
+SETS.push([["log", "記録・丸太"], ["late", "遅い・遅く"], ["deep", "深い"], ["east", "東・東の"], ["either", "どちらか・（否定文で）〜も"], ["orange", "オレンジ・橙色"], ["statue", "像・彫像"], ["meter", "メートル・計器"], ["moreover", "さらに・そのうえ"], ["wide", "広い・幅広い"]]);
+SETS.push([["pace", "速度・ペース"], ["textbook", "教科書"], ["dollar", "ドル"], ["headphone", "ヘッドホン"], ["previous", "前の・以前の"], ["round", "丸い・〜の周りに"], ["across", "〜を横切って・向こう側に"], ["street", "通り・街路"], ["fascinate", "魅了する"], ["role", "役割"]]);
+SETS.push([["latest", "最新の"], ["background", "背景・経歴"], ["rapidly", "急速に・速く"], ["follower", "フォロワー・支持者"], ["simply", "単に・簡単に"], ["fame", "名声・評判"], ["engage", "従事する・関わる"], ["attempt", "試みる・試み"], ["temporary", "一時的な・仮の"], ["concentration", "集中・濃度"]]);
+SETS.push([["aggressive", "攻撃的な・積極的な"], ["discovery", "発見"], ["snack", "軽食・おやつ"], ["suit", "スーツ・合う"], ["abroad", "外国へ・外国で"], ["delicious", "おいしい"], ["plus", "プラス・〜に加えて"], ["sum", "合計・金額"], ["strength", "強さ・体力"], ["fix", "修理する・固定する"]]);
+SETS.push([["instant", "即座の・瞬間"], ["awareness", "認識・自覚"], ["independent", "独立した・自立した"], ["hire", "雇う・（金を払って）借りる"], ["regularly", "定期的に・規則正しく"], ["british", "英国の・英国人"], ["neither", "どちらも〜ない"], ["truly", "本当に・真に"], ["proper", "適切な・固有の"], ["unknown", "未知の・無名の"]]);
+SETS.push([["select", "選ぶ・選抜する"], ["doubt", "疑い・疑う"], ["hopefully", "うまくいけば・願わくば"], ["onigiri", "おにぎり（2年出現から補充）"], ["band", "楽団・バンド（2年出現から補充）"], ["television", "テレビ（2年出現から補充）"], ["elephant", "象（2年出現から補充）"], ["classroom", "教室（2年出現から補充）"], ["pattern", "模様・パターン（2年出現から補充）"], ["source", "源・情報源（2年出現から補充）"]]);
+
 const LEVELS = [
   { name: "レベル1", start: 0, count: 20 },
   { name: "レベル2", start: 20, count: 30 },
   { name: "レベル3", start: 50, count: 30 },
   { name: "レベル4", start: 80, count: 30 },
   { name: "レベル5", start: 110, count: 12 },
-  { name: "レベル6", start: 122, count: 10 }
+  { name: "レベル6", start: 122, count: 10 },
+  { name: "レベル7", start: 132, count: 11 },
+  { name: "レベル8", start: 143, count: 10 }
 ];
 function levelOf(i) {
   for (const L of LEVELS) if (i >= L.start && i < L.start + L.count) return L;
