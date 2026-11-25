@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英単語トレーニング（英検2級レベル）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; background: #f4f6fb; color: #222; padding: 16px; max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 20px; margin: 8px 0 4px; }
+  .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
+  .card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  button { font-size: 16px; border: none; border-radius: 10px; padding: 12px 18px; cursor: pointer; background: #3b6fe0; color: #fff; width: 100%; margin-top: 10px; }
+  button:disabled { background: #b9c4d6; cursor: not-allowed; }
+  button.sub-btn { background: #eef2fa; color: #3b6fe0; }
+  button.learned { background: #2ea44f; }
+  button.not-yet { background: #eef2fa; color: #555; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 10px 6px; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+  th { font-size: 12px; color: #888; }
+  .en { font-size: 18px; font-weight: 600; }
+  .ja { font-size: 15px; color: #444; }
+  td .mini { width: auto; padding: 8px 12px; font-size: 14px; margin: 0; white-space: nowrap; }
+  .choice { display: block; width: 100%; text-align: left; background: #eef2fa; color: #222; margin-top: 8px; }
+  .choice.correct { background: #2ea44f; color: #fff; }
+  .choice.wrong { background: #e0533b; color: #fff; }
+  .q { font-size: 22px; font-weight: 700; margin: 10px 0 4px; }
+  .q-label { font-size: 12px; color: #888; }
+  .progress { font-size: 13px; color: #666; margin-bottom: 6px; }
+  .set-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px; border-bottom: 1px solid #eee; }
+  .set-row:last-child { border-bottom: none; }
+  .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: #eef2fa; color: #3b6fe0; white-space: nowrap; }
+  .badge.done { background: #e2f4e8; color: #2ea44f; }
+  .badge.review { background: #fff3d6; color: #a86e00; }
+  .set-row button { width: auto; margin: 0; padding: 8px 14px; font-size: 14px; }
+  .big-score { font-size: 34px; font-weight: 800; text-align: center; margin: 8px 0; }
+  .note { font-size: 13px; color: #666; line-height: 1.6; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<h1>英単語トレーニング</h1>
+<p class="sub">英検2級レベル ・ 全20セット × 10語 ＝ 200語</p>
+
+<!-- ホーム -->
+<div id="view-home">
+  <div class="card" id="placement-card">
+    <p><strong>最初にレベル診断</strong></p>
+    <p class="note">15問のテストで、今どのくらい分かるかを測って、始めるセットを決めるよ。</p>
+    <button onclick="startPlacement()">レベル診断を受ける</button>
+  </div>
+  <div class="card">
+    <p><strong>セット一覧</strong></p>
+    <p class="note">単語表で覚える → 「覚えた」を押す → テスト。テストには<strong>前回のセット</strong>と<strong>5回前のセット</strong>の復習も混ざるよ。</p>
+    <div id="set-list"></div>
+  </div>
+  <div class="card">
+    <button class="sub-btn" onclick="resetAll()">進み具合をリセット</button>
+  </div>
+</div>
+
+<!-- 学習（単語表） -->
+<div id="view-study" class="hidden">
+  <div class="card">
+    <p class="progress" id="study-title"></p>
+    <table>
+      <tr><th>英語</th><th>日本語</th><th></th></tr>
+      <tbody id="word-table"></tbody>
+    </table>
+    <button id="to-test-btn" onclick="startTest()" disabled>テストをする</button>
+    <button class="sub-btn" onclick="goHome()">一覧に戻る</button>
+  </div>
+</div>
+
+<!-- テスト -->
+<div id="view-quiz" class="hidden">
+  <div class="card">
+    <p class="progress" id="quiz-progress"></p>
+    <p class="q-label" id="quiz-label"></p>
+    <p class="q" id="quiz-q"></p>
+    <div id="quiz-choices"></div>
+    <button id="quiz-next" class="hidden" onclick="nextQuestion()">次へ</button>
+  </div>
+</div>
+
+<!-- 結果 -->
+<div id="view-result" class="hidden">
+  <div class="card">
+    <p style="text-align:center" id="result-title">結果</p>
+    <p class="big-score" id="result-score"></p>
+    <p class="note" id="result-detail" style="text-align:center"></p>
+    <button onclick="goHome()">一覧に戻る</button>
+  </div>
+</div>
+
+<script>
+const SETS = [
+[["environment","環境"],["government","政府"],["increase","増える・増やす"],["decrease","減る・減らす"],["develop","発展する・開発する"],["consider","よく考える・みなす"],["available","利用できる"],["experience","経験"],["necessary","必要な"],["recently","最近"]],
+[["especially","特に"],["finally","ついに・最後に"],["immediately","すぐに"],["probably","おそらく"],["actually","実は"],["however","しかしながら"],["therefore","それゆえに"],["although","〜だけれども"],["unless","〜でない限り"],["instead","その代わりに"]],
+[["knowledge","知識"],["education","教育"],["society","社会"],["culture","文化"],["nature","自然"],["health","健康"],["disease","病気"],["medicine","薬・医学"],["patient","患者"],["treatment","治療"]],
+[["economy","経済"],["industry","産業"],["company","会社"],["business","商売・事業"],["product","製品"],["price","価格"],["cost","費用・犠牲"],["trade","貿易・取引"],["market","市場"],["customer","顧客"]],
+[["decide","決める"],["choose","選ぶ"],["prepare","準備する"],["improve","改善する"],["continue","続ける"],["succeed","成功する"],["fail","失敗する"],["avoid","避ける"],["allow","許す"],["prevent","防ぐ"]],
+[["important","重要な"],["different","異なる"],["similar","似ている"],["possible","可能な"],["impossible","不可能な"],["difficult","難しい"],["simple","簡単な"],["dangerous","危険な"],["famous","有名な"],["popular","人気のある"]],
+[["information","情報"],["communication","意思疎通"],["technology","技術"],["internet","インターネット"],["website","ウェブサイト"],["message","メッセージ"],["screen","画面"],["device","装置・機器"],["data","データ"],["digital","デジタルの"]],
+[["travel","旅行する"],["journey","旅"],["flight","飛行機の便"],["passenger","乗客"],["luggage","荷物"],["reservation","予約"],["ticket","切符"],["airport","空港"],["hotel","ホテル"],["station","駅"]],
+[["climate","気候"],["forecast","天気予報"],["temperature","気温・温度"],["degree","（温度などの）度"],["humid","湿気のある"],["thunder","雷"],["lightning","稲妻"],["flood","洪水"],["drought","干ばつ"],["melt","溶ける"]],
+[["pollution","汚染"],["recycle","リサイクルする"],["waste","廃棄物・無駄"],["resource","資源"],["energy","エネルギー"],["protect","守る"],["destroy","破壊する"],["reduce","減らす"],["reuse","再利用する"],["warming","温暖化"]],
+[["agree","賛成する"],["disagree","反対する"],["discuss","議論する"],["explain","説明する"],["describe","描写する・述べる"],["suggest","提案する"],["advise","助言する"],["complain","不満を言う"],["apologize","謝る"],["introduce","紹介する"]],
+[["borrow","借りる"],["lend","貸す"],["return","返す・戻る"],["receive","受け取る"],["deliver","配達する"],["send","送る"],["collect","集める"],["keep","保つ・続ける"],["lose","失う・負ける"],["win","勝つ"]],
+[["begin","始まる・始める"],["finish","終える"],["hurry","急ぐ"],["rest","休む"],["relax","くつろぐ"],["exercise","運動する"],["practice","練習する"],["wait","待つ"],["stop","止まる・止める"],["start","始める"]],
+[["happy","幸せな"],["sad","悲しい"],["angry","怒った"],["surprised","驚いた"],["worried","心配した"],["excited","興奮した"],["tired","疲れた"],["hungry","空腹の"],["thirsty","のどが渇いた"],["nervous","緊張した"]],
+[["relative","親戚"],["couple","夫婦・カップル"],["adult","大人"],["teenager","十代の若者"],["generation","世代"],["relationship","関係"],["marriage","結婚"],["wedding","結婚式"],["birth","誕生"],["death","死"]],
+[["law","法律"],["rule","規則"],["right","権利・正しい"],["duty","義務"],["freedom","自由"],["peace","平和"],["war","戦争"],["history","歴史"],["future","未来"],["past","過去"]],
+[["build","建てる"],["break","壊す"],["fix","修理する"],["create","作り出す"],["design","デザインする"],["invent","発明する"],["discover","発見する"],["produce","生産する"],["grow","育つ・育てる"],["change","変わる・変える"]],
+[["question","質問"],["answer","答え"],["problem","問題"],["reason","理由"],["result","結果"],["idea","考え"],["opinion","意見"],["fact","事実"],["example","例"],["mistake","間違い"]],
+[["level","レベル"],["quality","質"],["quantity","量"],["size","大きさ"],["weight","重さ"],["height","高さ"],["length","長さ"],["speed","速さ"],["distance","距離"],["degree2","程度・学位"]],
+[["achieve","達成する"],["challenge","挑戦"],["effort","努力"],["goal","目標"],["chance","機会"],["luck","運"],["success","成功"],["failure","失敗"],["progress","進歩"],["habit","習慣"]]
+];
+// degree2 は表示用に degree とする
+SETS[18][9] = ["degree","程度・学位"];
+
+const KEY = "eiken_vocab_v1";
+let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+if (!state.learned) state = { learned: {}, cleared: {}, placementDone: false, startSet: 0 };
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+let currentSet = 0;
+let quiz = [], quizIdx = 0, quizScore = {}, quizAnswered = false, quizMode = "";
+
+function show(id) {
+  ["view-home","view-study","view-quiz","view-result"].forEach(v => document.getElementById(v).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function goHome() { renderHome(); show("view-home"); }
+
+function setStatus(i) {
+  if (state.cleared[i]) return "done";
+  if (i < state.startSet) return "skip";
+  return "";
+}
+function renderHome() {
+  document.getElementById("placement-card").style.display = state.placementDone ? "none" : "block";
+  const list = document.getElementById("set-list");
+  list.innerHTML = "";
+  SETS.forEach((words, i) => {
+    const row = document.createElement("div");
+    row.className = "set-row";
+    let badge = "";
+    if (state.cleared[i]) badge = '<span class="badge done">クリア済み</span>';
+    else if (i < state.startSet) badge = '<span class="badge">診断でスキップ可</span>';
+    const hasReview = (i >= 1 && (state.cleared[i-1] || i-1 < state.startSet)) || (i >= 5 && (state.cleared[i-5] || i-5 < state.startSet));
+    row.innerHTML = `<span>セット ${i+1} ${badge}</span>`;
+    const btn = document.createElement("button");
+    btn.textContent = state.cleared[i] ? "見直す" : "覚える";
+    btn.onclick = () => openStudy(i);
+    row.appendChild(btn);
+    list.appendChild(row);
+  });
+}
+
+function openStudy(i) {
+  currentSet = i;
+  document.getElementById("study-title").textContent = `セット ${i+1}（10語）`;
+  const tb = document.getElementById("word-table");
+  tb.innerHTML = "";
+  SETS[i].forEach((w, j) => {
+    const tr = document.createElement("tr");
+    const learned = state.learned[i] && state.learned[i][j];
+    tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    const td = document.createElement("td");
+    const b = document.createElement("button");
+    b.className = "mini " + (learned ? "learned" : "not-yet");
+    b.textContent = learned ? "覚えた ✓" : "覚えた";
+    b.onclick = () => {
+      if (!state.learned[i]) state.learned[i] = {};
+      state.learned[i][j] = !state.learned[i][j];
+      save(); openStudy(i);
+    };
+    td.appendChild(b); tr.appendChild(td); tb.appendChild(tr);
+  });
+  const all = SETS[i].every((_, j) => state.learned[i] && state.learned[i][j]);
+  const btn = document.getElementById("to-test-btn");
+  btn.disabled = !all;
+  btn.textContent = all ? "テストをする" : "全部「覚えた」を押すとテストできるよ";
+  show("view-study");
+}
+
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function sample(a, n) { return shuffle(a).slice(0, n); }
+
+function makeQ(wordPair, tag, allWords) {
+  const enToJa = Math.random() < 0.6;
+  const others = sample(allWords.filter(w => w !== wordPair), 3);
+  if (enToJa) {
+    return { tag, q: wordPair[0], label: "意味はどれ？", choices: shuffle([wordPair[1], ...others.map(w => w[1])]), answer: wordPair[1] };
+  }
+  return { tag, q: wordPair[1], label: "英語ではどれ？", choices: shuffle([wordPair[0], ...others.map(w => w[0])]), answer: wordPair[0] };
+}
+
+const ALL = SETS.flat();
+
+function startTest() {
+  const i = currentSet;
+  quiz = [];
+  SETS[i].forEach(w => quiz.push(makeQ(w, "今回のセット", ALL)));
+  if (i >= 1 && (state.cleared[i-1] || i-1 < state.startSet)) sample(SETS[i-1], 5).forEach(w => quiz.push(makeQ(w, "前回の復習", ALL)));
+  if (i >= 5 && (state.cleared[i-5] || i-5 < state.startSet)) sample(SETS[i-5], 5).forEach(w => quiz.push(makeQ(w, "5回前の復習", ALL)));
+  quiz = shuffle(quiz);
+  quizMode = "set"; quizIdx = 0; quizScore = {};
+  show("view-quiz"); renderQ();
+}
+
+function startPlacement() {
+  const picks = [1,3,5,7,9,11,13,15,17,19,0,6,12,18,4].map(si => SETS[si][Math.floor(Math.random()*10)]);
+  quiz = picks.map(w => { const q = makeQ(w, "診断", ALL); q.label = "意味はどれ？"; q.q = w[0]; q.choices = shuffle([w[1], ...sample(ALL.filter(x => x !== w), 3).map(x => x[1])]); q.answer = w[1]; return q; });
+  quizMode = "placement"; quizIdx = 0; quizScore = {};
+  show("view-quiz"); renderQ();
+}
+
+function renderQ() {
+  const q = quiz[quizIdx];
+  quizAnswered = false;
+  document.getElementById("quiz-progress").textContent = `${quizIdx + 1} / ${quiz.length} 問`;
+  document.getElementById("quiz-label").textContent = q.tag + " ・ " + q.label;
+  document.getElementById("quiz-q").textContent = q.q;
+  const box = document.getElementById("quiz-choices");
+  box.innerHTML = "";
+  q.choices.forEach(c => {
+    const b = document.createElement("button");
+    b.className = "choice"; b.textContent = c;
+    b.onclick = () => {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const ok = c === q.answer;
+      if (!quizScore[q.tag]) quizScore[q.tag] = { ok: 0, total: 0 };
+      quizScore[q.tag].total++; if (ok) quizScore[q.tag].ok++;
+      b.classList.add(ok ? "correct" : "wrong");
+      [...box.children].forEach(x => { if (x.textContent === q.answer) x.classList.add("correct"); x.disabled = true; });
+      document.getElementById("quiz-next").classList.remove("hidden");
+      document.getElementById("quiz-next").textContent = quizIdx + 1 < quiz.length ? "次へ" : "結果を見る";
+    };
+    box.appendChild(b);
+  });
+  document.getElementById("quiz-next").classList.add("hidden");
+}
+
+function nextQuestion() {
+  quizIdx++;
+  if (quizIdx < quiz.length) { renderQ(); return; }
+  finishQuiz();
+}
+
+function finishQuiz() {
+  show("view-result");
+  if (quizMode === "placement") {
+    const s = quizScore["診断"] || { ok: 0, total: 15 };
+    document.getElementById("result-title").textContent = "レベル診断の結果";
+    document.getElementById("result-score").textContent = `${s.ok} / ${s.total}`;
+    let start = 0, msg = "";
+    if (s.ok <= 5) { start = 0; msg = "まずはセット1から、土台を固めよう。"; }
+    else if (s.ok <= 9) { start = 3; msg = "基礎はそこそこ入ってる。セット4から始めるのがおすすめ。"; }
+    else if (s.ok <= 12) { start = 6; msg = "かなり分かるね。セット7から始めよう。"; }
+    else { start = 10; msg = "すごい、上級レベル。セット11から始めよう。"; }
+    state.placementDone = true; state.startSet = start; save();
+    document.getElementById("result-detail").textContent = msg;
+  } else {
+    const main = quizScore["今回のセット"] || { ok: 0, total: 10 };
+    const pct = Math.round(main.ok / main.total * 100);
+    document.getElementById("result-title").textContent = `セット ${currentSet + 1} の結果`;
+    document.getElementById("result-score").textContent = `${pct}%`;
+    let detail = `今回のセット： ${main.ok} / ${main.total}`;
+    if (quizScore["前回の復習"]) detail += ` ・ 前回の復習： ${quizScore["前回の復習"].ok} / ${quizScore["前回の復習"].total}`;
+    if (quizScore["5回前の復習"]) detail += ` ・ 5回前の復習： ${quizScore["5回前の復習"].ok} / ${quizScore["5回前の復習"].total}`;
+    if (pct >= 80) { state.cleared[currentSet] = true; save(); detail += "\nクリア！次のセットに進めるよ 🎉"; }
+    else detail += "\nクリアは80%から。間違えた単語だけ見直してもう一度やってみよう。";
+    document.getElementById("result-detail").textContent = detail;
+  }
+}
+
+function resetAll() {
+  if (!confirm("進み具合を全部消す？")) return;
+  localStorage.removeItem(KEY);
+  state = { learned: {}, cleared: {}, placementDone: false, startSet: 0 };
+  renderHome();
+}
+
+renderHome();
+</script>
+</body>
+</html>
