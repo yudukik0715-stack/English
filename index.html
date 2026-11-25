@@ -43,13 +43,13 @@
 </head>
 <body>
 <h1>英単語トレーニング</h1>
-<p class="sub">英検2級レベル ・ レベル1〜3 ・ 単語800語 ＋ 熟語100個</p>
+<p class="sub">英検2級レベル ・ レベル1〜4 ・ 単語1100語 ＋ 熟語100個</p>
 
 <!-- ホーム -->
 <div id="view-home">
   <div class="card" id="placement-card">
     <p><strong>最初にレベル診断</strong></p>
-    <p class="note">15問のテストで、今どのくらい分かるかを測って、始めるセットを決めるよ。</p>
+    <p class="note">20問のテストで、今どのくらい分かるかを測って、始めるセットを決めるよ。</p>
     <button onclick="startPlacement()">レベル診断を受ける</button>
   </div>
   <div class="card" id="missed-card" style="display:none">
@@ -220,6 +220,41 @@ SETS.push(
 [["conclude","結論づける"],["determine","決定する・決心する"],["maintain","維持する・主張する"],["claim","主張する"],["prove","証明する"],["demonstrate","実証する・デモをする"],["indicate","示す"],["reflect","反射する・反映する"],["contribute","貢献する"],["tend","〜しがちである"]]
 );
 
+// レベル4（セット81〜110）：大学受験頻出。SETS はグローバルindexのまま拡張する
+SETS.push(
+
+[["interpret","解釈する"],["evaluate","評価する"],["assess","評価する・査定する"],["estimate","見積もる・推定する"],["presume","推定する・思う"],["imply","ほのめかす・意味する"],["infer","推論する"],["perceive","知覚する・理解する"],["speculate","推測する"],["justify","正当化する"]],
+[["influence","影響を与える"],["affect","影響を与える"],["alter","変える・変更する"],["modify","修正する・変更する"],["convert","変える・転換する"],["shift","移す・変わる"],["vary","異なる・変わる"],["adapt","適応する・適応させる"],["adjust","調整する・慣れる"],["substitute","代用する・代わりを務める"]],
+[["phenomenon","現象"],["hypothesis","仮説"],["criterion","基準"],["principle","原理・原則"],["concept","概念"],["notion","概念・考え"],["perspective","観点・見方"],["aspect","側面・観点"],["dimension","次元・側面"],["context","文脈・背景"]],
+[["democracy","民主主義"],["parliament","議会"],["administration","政権・行政"],["constitution","憲法"],["legislation","法律・立法"],["bureaucracy","官僚制度"],["diplomatic","外交の"],["federal","連邦の"],["conservative","保守的な"],["liberal","進歩的な・自由主義の"]],
+[["inflation","インフレ・物価上昇"],["recession","不況"],["deficit","赤字"],["surplus","黒字・余剰"],["revenue","歳入・収益"],["expenditure","支出"],["consumption","消費"],["commodity","商品"],["transaction","取引"],["enterprise","企業・事業"]],
+[["organism","生物・有機体"],["species","種"],["cell","細胞"],["gene","遺伝子"],["molecule","分子"],["particle","粒子"],["gravity","重力"],["orbit","軌道"],["fossil","化石"],["ecosystem","生態系"]],
+[["diagnosis","診断"],["therapy","治療法・療法"],["vaccine","ワクチン"],["infection","感染"],["immune","免疫の"],["chronic","慢性の"],["mental","精神の"],["disorder","障害・疾患"],["prevention","予防"],["fatal","致命的な"]],
+[["emission","排出"],["extinction","絶滅"],["biodiversity","生物多様性"],["habitat","生息地"],["deforestation","森林伐採"],["desertification","砂漠化"],["erosion","浸食"],["contamination","汚染"],["sustainability","持続可能性"],["conservation","保護・保全"]],
+[["tendency","傾向"],["significance","重要性・意義"],["consequence","結果・重大性"],["implication","含意・影響"],["controversy","論争"],["consensus","合意"],["prejudice","偏見"],["discrimination","差別"],["diversity","多様性"],["identity","アイデンティティ・同一性"]],
+[["virtue","美徳"],["morality","道徳"],["ethics","倫理"],["conscience","良心"],["wisdom","知恵"],["ignorance","無知"],["ambition","野心"],["incentive","動機・奨励"],["reputation","評判"],["prestige","威信・名声"]],
+[["undertake","引き受ける"],["implement","実施する"],["execute","実行する"],["accomplish","成し遂げる"],["fulfill","果たす・満たす"],["enforce","施行する・強制する"],["impose","課す"],["abolish","廃止する"],["restore","回復する・復旧する"],["eliminate","除去する"]],
+[["assert","主張する"],["emphasize","強調する"],["acknowledge","認める"],["admit","認める・入場を許可する"],["deny","否定する"],["reject","拒絶する"],["argue","主張する・議論する"],["debate","討論する"],["convince","確信させる・説得する"],["urge","強く促す"]],
+[["accumulate","蓄積する"],["diminish","減少する"],["intensify","強まる・強める"],["strengthen","強化する"],["weaken","弱める"],["enhance","高める・強化する"],["exceed","超える"],["surpass","上回る"],["decline","減少する・辞退する"],["boost","押し上げる・高める"]],
+[["abstract","抽象的な"],["concrete","具体的な"],["objective","客観的な"],["subjective","主観的な"],["rational","理性的な"],["logical","論理的な"],["valid","妥当な"],["consistent","一貫した"],["coherent","首尾一貫した"],["ambiguous","曖昧な"]],
+[["fundamental","根本的な"],["crucial","決定的に重要な"],["vital","極めて重要な"],["inevitable","不可避の"],["evident","明らかな"],["apparent","見かけの・明らかな"],["potential","潜在的な"],["ultimate","最終の・究極の"],["primary","主要な・第一の"],["principal","主要な"]],
+[["voluntary","自発的な"],["compulsory","義務的な・必修の"],["mutual","相互の"],["equivalent","等しい・相当する"],["identical","全く同じ"],["distinct","明確に異なる"],["diverse","多様な"],["numerous","多数の"],["considerable","相当な"],["substantial","かなりの・実質的な"]],
+[["relatively","比較的"],["approximately","約・およそ"],["significantly","著しく"],["inevitably","不可避に"],["meanwhile","その間に・一方"],["nevertheless","それにもかかわらず"],["hence","それゆえに"],["thus","このように・それゆえ"],["whereas","〜であるのに対して"],["accordingly","それに応じて・それゆえに"]],
+[["classify","分類する"],["define","定義する"],["derive","引き出す・由来する"],["constitute","構成する・〜である"],["comprise","構成する・含む"],["correspond","一致する・相当する"],["relate","関係づける"],["associate","関連づける"],["link","結びつける"],["trace","たどる・追跡する"]],
+[["institution","制度・機関"],["welfare","福祉"],["pension","年金"],["insurance","保険"],["charity","慈善"],["volunteer","ボランティア・志願者"],["employment","雇用"],["unemployment","失業"],["retirement","退職"],["profession","職業"]],
+[["emerge","現れる"],["arise","生じる"],["fade","徐々に消える"],["vanish","消える"],["float","浮かぶ"],["sink","沈む"],["rotate","回転する"],["descend","降りる・下る"],["collapse","崩壊する"],["burst","破裂する"]],
+[["equator","赤道"],["hemisphere","半球"],["latitude","緯度"],["longitude","経度"],["altitude","高度"],["depth","深さ"],["width","幅"],["boundary","境界"],["landscape","景色・風景"],["wilderness","荒野"]],
+[["despise","軽蔑する"],["frustrate","挫折させる・いらだたせる"],["irritate","いらだたせる"],["annoy","悩ます・いら立たせる"],["disturb","邪魔する・かき乱す"],["bother","悩ます"],["confuse","混乱させる"],["amaze","驚かせる"],["motivate","動機づける"],["discourage","落胆させる・思いとどまらせる"]],
+[["anxiety","不安"],["frustration","欲求不満・挫折"],["sympathy","同情"],["empathy","共感"],["compassion","思いやり"],["gratitude","感謝"],["pride","誇り"],["shame","恥"],["relief","安堵"],["tension","緊張"]],
+[["possess","所有する"],["occupy","占める・占有する"],["inhabit","住む・生息する"],["locate","位置する・突き止める"],["surround","囲む"],["border","接する・縁取る"],["stretch","伸びる・広がる"],["lean","傾く・寄りかかる"],["attach","取り付ける・添付する"],["remove","取り除く"]],
+[["entrepreneur","起業家"],["employer","雇用主"],["employee","従業員"],["applicant","応募者"],["candidate","候補者"],["client","依頼人・顧客"],["consumer","消費者"],["manufacturer","製造業者"],["supplier","供給業者"],["retailer","小売業者"]],
+[["sue","訴える"],["accuse","非難する・告訴する"],["suspect","疑う"],["witness","目撃する・証人"],["testify","証言する"],["prosecute","起訴する"],["defend","弁護する・守る"],["violate","違反する・侵害する"],["obey","従う"],["commit","（罪を）犯す・専念する"]],
+[["abundant","豊富な"],["adequate","十分な・適切な"],["ample","十分な・広い"],["scarce","乏しい"],["excessive","過度の"],["moderate","適度な・穏健な"],["intense","強烈な"],["severe","厳しい・深刻な"],["extreme","極端な"],["steady","着実な・安定した"]],
+[["database","データベース"],["server","サーバー"],["browser","ブラウザ"],["application","アプリ・応用"],["access","アクセス・接近"],["security","安全・警備"],["privacy","プライバシー"],["copyright","著作権"],["media","メディア・媒体"],["signal","信号・合図"]],
+[["depict","描写する"],["portray","描写する・演じる"],["narrate","物語る"],["formulate","まとめる・公式化する"],["devise","考案する"],["innovate","革新する"],["pioneer","開拓する"],["revolutionize","革命をもたらす"],["refine","洗練する・精製する"],["polish","磨く・洗練する"]],
+[["ensure","確実にする・保証する"],["enable","可能にする"],["involve","含む・関与する"],["concern","関係する・心配させる"],["matter","重要である"],["lack","欠く・不足する"],["deserve","〜に値する"],["remark","言及する・意見"],["comment","意見・コメントする"],["mention","言及する"]]
+);
+
 // 熟語（イディオム・句動詞）：単語とは別配列。共通テスト・大学入試頻出ベース。10セット × 10個 ＝ 100個
 const IDIOM_SETS = [
 [["account for","〜を説明する・〜を占める"],["bring about","〜を引き起こす"],["carry out","〜を実行する"],["come up with","〜を思いつく"],["make up for","〜の埋め合わせをする"],["put off","〜を延期する"],["result in","〜という結果になる"],["result from","〜が原因で生じる"],["stand for","〜を表す・象徴する"],["take into account","〜を考慮に入れる"]],
@@ -239,7 +274,8 @@ function idiomKey(w) { return "i:" + w[0]; } // 苦手プールで単語と衝�
 const LEVELS = [
   { name: "レベル1", start: 0, count: 20 },
   { name: "レベル2", start: 20, count: 30 },
-  { name: "レベル3", start: 50, count: 30 }
+  { name: "レベル3", start: 50, count: 30 },
+  { name: "レベル4", start: 80, count: 30 }
 ];
 function levelOf(i) {
   for (const L of LEVELS) if (i >= L.start && i < L.start + L.count) return L;
@@ -449,7 +485,7 @@ function startTest() {
 }
 
 function startPlacement() {
-  // 各レベルから5問ずつ（計15問）サンプリングし、レベル別に集計する
+  // 各レベルから5問ずつ（計20問）サンプリングし、レベル別に集計する
   quiz = [];
   LEVELS.forEach((L, li) => {
     sample(SETS.slice(L.start, L.start + L.count), 5).forEach(s => {
@@ -516,11 +552,12 @@ function finishQuiz() {
   show("view-result");
   if (quizMode === "placement") {
     const g = n => (quizScore["診断" + n] || { ok: 0, total: 5 }).ok;
-    const total = g(1) + g(2) + g(3);
+    const total = g(1) + g(2) + g(3) + g(4);
     document.getElementById("result-title").textContent = "レベル診断の結果";
-    document.getElementById("result-score").textContent = `${total} / 15`;
+    document.getElementById("result-score").textContent = `${total} / 20`;
     let start = 0, msg = "";
-    if (g(1) >= 4 && g(2) >= 4 && g(3) >= 3) { start = 50; msg = "すごい！レベル3から始められる力があるよ。"; }
+    if (g(1) >= 4 && g(2) >= 4 && g(3) >= 4 && g(4) >= 3) { start = 80; msg = "すごい！レベル4から始められる力があるよ。"; }
+    else if (g(1) >= 4 && g(2) >= 4 && g(3) >= 3) { start = 50; msg = "すごい！レベル3から始められる力があるよ。"; }
     else if (g(1) >= 4 && g(2) >= 3) { start = 20; msg = "基礎はしっかりしてる。レベル2から始めよう。"; }
     else if (g(1) >= 4) { start = 10; msg = "レベル1の後半（セット11）から始めよう。"; }
     else if (g(1) >= 2) { start = 4; msg = "レベル1のセット5から始めよう。"; }
