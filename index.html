@@ -39,7 +39,8 @@
   .level-head { font-size: 15px; font-weight: 700; color: #3b6fe0; margin: 16px 0 4px; }
   .level-head:first-child { margin-top: 4px; }
   textarea { width: 100%; margin-top: 10px; padding: 10px; border: 1px solid #ccd3e0; border-radius: 10px; font-size: 12px; font-family: monospace; }
-    button.play { margin-right: 6px; }
+    button.play { font-size: 11px; padding: 5px 8px; border-radius: 999px; line-height: 1; }
+    td.playcell { width: 36px; }
   </style>
 </head>
 <body>
@@ -93,7 +94,7 @@
   <div class="card">
     <p class="progress" id="study-title"></p>
     <table>
-      <tr><th>英語</th><th>日本語</th><th></th></tr>
+      <tr><th></th><th>英語</th><th>日本語</th><th></th></tr>
       <tbody id="word-table"></tbody>
     </table>
     <button id="to-test-btn" onclick="startTest()" disabled>テストをする</button>
@@ -106,7 +107,7 @@
   <div class="card">
     <p class="progress" id="idiom-study-title"></p>
     <table>
-      <tr><th>熟語</th><th>日本語</th><th></th></tr>
+      <tr><th></th><th>熟語</th><th>日本語</th><th></th></tr>
       <tbody id="idiom-table"></tbody>
     </table>
     <button id="idiom-to-test-btn" onclick="startIdiomTest()" disabled>テストをする</button>
@@ -496,13 +497,16 @@ function openStudy(i) {
   SETS[i].forEach((w, j) => {
     const tr = document.createElement("tr");
     const learned = state.learned[i] && state.learned[i][j];
-    tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
-    const td = document.createElement("td");
+    const ptd = document.createElement("td");
+    ptd.className = "playcell";
     const pb = document.createElement("button");
     pb.className = "mini play";
     pb.textContent = "▶";
     pb.onclick = () => speak(w[0]);
-    td.appendChild(pb);
+    ptd.appendChild(pb);
+    tr.appendChild(ptd);
+    tr.innerHTML += `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    const td = document.createElement("td");
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
     b.textContent = learned ? "覚えた ✓" : "覚えた";
@@ -529,13 +533,16 @@ function openIdiomStudy(i) {
   IDIOM_SETS[i].forEach((w, j) => {
     const tr = document.createElement("tr");
     const learned = state.idiomLearned[i] && state.idiomLearned[i][j];
-    tr.innerHTML = `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
-    const td = document.createElement("td");
+    const ptd = document.createElement("td");
+    ptd.className = "playcell";
     const pb = document.createElement("button");
     pb.className = "mini play";
     pb.textContent = "▶";
     pb.onclick = () => speak(w[0]);
-    td.appendChild(pb);
+    ptd.appendChild(pb);
+    tr.appendChild(ptd);
+    tr.innerHTML += `<td class="en">${w[0]}</td><td class="ja">${w[1]}</td>`;
+    const td = document.createElement("td");
     const b = document.createElement("button");
     b.className = "mini " + (learned ? "learned" : "not-yet");
     b.textContent = learned ? "覚えた ✓" : "覚えた";
