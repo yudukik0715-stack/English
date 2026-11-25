@@ -43,7 +43,7 @@
 </head>
 <body>
 <h1>英単語トレーニング</h1>
-<p class="sub">英検2級レベル ・ レベル1〜4 ・ 単語1100語 ＋ 熟語300個</p>
+<p class="sub">英検2級レベル ・ レベル1〜6 ・ 単語1320語 ＋ 熟語300個</p>
 
 <!-- ホーム -->
 <div id="view-home">
@@ -296,11 +296,36 @@ IDIOM_SETS.push([["no matter how", "どんなに〜でも"], ["even if", "たと
 const ALL_IDIOMS = IDIOM_SETS.flat();
 function idiomKey(w) { return "i:" + w[0]; } // 苦手プールで単語と衝突しないよう接頭辞を付ける
 
+SETS.push([["use", "用いる・使う"], ["show", "示す・見せる"], ["call", "呼ぶ・電話する"], ["try", "試す・努める"], ["hold", "開催する・持つ"], ["lead", "導く・率いる"], ["join", "参加する・加わる"], ["attend", "出席する・参加する"], ["reply", "返事をする"], ["serve", "提供する・務める"]]);
+SETS.push([["provide", "提供する"], ["focus", "焦点を当てる・集中する"], ["report", "報告する・報道する"], ["note", "述べる・メモする"], ["view", "見方・眺め"], ["recommend", "勧める・推薦する"], ["respond", "応答する・反応する"], ["replace", "置き換える・交換する"], ["bear", "我慢する・耐える"], ["excite", "興奮させる"]]);
+SETS.push([["member", "一員・会員"], ["participant", "参加者"], ["participate", "参加する"], ["researcher", "研究者"], ["writer", "作家・著者"], ["actor", "俳優"], ["staff", "職員・スタッフ"], ["project", "企画・事業"], ["program", "番組・計画"], ["schedule", "予定・日程"]]);
+SETS.push([["interest", "興味・関心"], ["attention", "注意・注目"], ["advice", "助言"], ["skill", "技能・技術"], ["ability", "能力"], ["memory", "記憶・思い出"], ["achievement", "達成・業績"], ["difference", "違い・差"], ["decision", "決定・決断"], ["choice", "選択・選択肢"]]);
+SETS.push([["issue", "問題・論点"], ["trouble", "困難・トラブル"], ["stress", "ストレス・圧力"], ["impact", "影響・衝撃"], ["safety", "安全"], ["solution", "解決策・答え"], ["assistance", "援助・支援"], ["care", "世話・配慮"], ["limit", "制限・限界"], ["priority", "優先事項"]]);
+SETS.push([["article", "記事・論文"], ["discussion", "議論・話し合い"], ["draft", "下書き・草案"], ["theme", "テーマ・主題"], ["material", "材料・素材"], ["object", "物・対象"], ["model", "模型・手本"], ["shape", "形"], ["equipment", "設備・道具"], ["space", "空間・宇宙"]]);
+SETS.push([["state", "状態・州"], ["order", "順序・注文"], ["rate", "割合・料金"], ["amount", "量・総額"], ["fee", "料金・手数料"], ["value", "価値"], ["range", "範囲・幅"], ["addition", "追加・足し算"], ["combination", "組み合わせ"], ["rank", "順位・地位"]]);
+SETS.push([["base", "基礎・拠点"], ["present", "現在の・贈り物"], ["final", "最後の・最終の"], ["original", "独自の・元の"], ["traditional", "伝統的な"], ["natural", "自然の・当然の"], ["artificial", "人工の"], ["basic", "基本的な"], ["ordinary", "普通の・平凡な"], ["recent", "最近の"]]);
+SETS.push([["various", "さまざまな"], ["likely", "可能性が高い・ありそうな"], ["safe", "安全な"], ["suitable", "適した"], ["expensive", "高価な"], ["active", "活発な・積極的な"], ["creative", "創造的な"], ["unique", "独特の・唯一の"], ["personal", "個人的な"], ["social", "社会の・社交的な"]]);
+SETS.push([["online", "オンラインの"], ["exchange", "交換・交流"], ["contact", "連絡・接触"], ["friendship", "友情"], ["development", "発展・開発"], ["lifestyle", "生活様式"], ["daily", "毎日の"], ["adventure", "冒険"], ["contest", "競争・コンテスト"], ["stage", "段階・舞台"]]);
+SETS.push([["easily", "簡単に・容易に"], ["due", "〜のせいで・予定された"], ["nearby", "近くの"], ["additional", "追加の"], ["financial", "財政の・金融の"], ["key", "重要な・鍵"], ["slide", "滑る・スライド"], ["route", "道順・路線"], ["wear", "着る・身につける"], ["drop", "落とす・下がる"]]);
+SETS.push([["creature", "生き物"], ["sign", "兆候・標識"], ["term", "用語・期間"], ["surprise", "驚き・驚かせる"], ["majority", "大多数"], ["task", "仕事・課題"], ["concentrate", "集中する"], ["appreciate", "感謝する・よさが分かる"], ["whether", "〜かどうか"], ["earth", "地球・大地"]]);
+SETS.push([["fill", "満たす・いっぱいになる"], ["cover", "覆う・含む"], ["pack", "詰める・荷造りする"], ["feed", "餌を与える"], ["solve", "解く・解決する"], ["apply", "申し込む・適用する"], ["submit", "提出する"], ["recruit", "募集する・新人"], ["copy", "写す・コピーする"], ["act", "行動する・演じる"]]);
+SETS.push([["advance", "進歩・前進"], ["growth", "成長"], ["outcome", "結果"], ["survival", "生存"], ["introduction", "導入・紹介"], ["connection", "つながり・接続"], ["function", "機能・働き"], ["argument", "議論・主張"], ["incident", "出来事・事件"], ["error", "誤り・エラー"]]);
+SETS.push([["collection", "収集・コレクション"], ["outline", "概要・輪郭"], ["survey", "調査・アンケート"], ["container", "容器・コンテナ"], ["campus", "キャンパス"], ["field", "分野・野原"], ["property", "財産・性質"], ["furniture", "家具"], ["style", "様式・スタイル"], ["fashion", "流行・ファッション"]]);
+SETS.push([["professor", "教授"], ["scientist", "科学者"], ["leader", "指導者・リーダー"], ["mayor", "市長"], ["performer", "出演者・演奏者"], ["user", "利用者"], ["routine", "日課・決まった手順"], ["rehearsal", "リハーサル"], ["workshop", "講習会・作業場"], ["newsletter", "会報・ニュースレター"]]);
+SETS.push([["healthy", "健康な"], ["successful", "成功した"], ["modern", "現代の"], ["environmental", "環境の"], ["scientific", "科学的な"], ["positive", "前向きな・肯定的な"], ["negative", "否定的な・消極的な"], ["fantastic", "素晴らしい"], ["enjoyable", "楽しい"], ["helpful", "役立つ"]]);
+SETS.push([["suggestion", "提案"], ["recommendation", "推薦・おすすめ"], ["preference", "好み・優先"], ["difficulty", "困難"], ["consciousness", "意識"], ["emotion", "感情"], ["spirit", "精神・心"], ["attachment", "愛着・添付"], ["shock", "衝撃・ショック"], ["scare", "怖がらせる・恐怖"]]);
+SETS.push([["threat", "脅威"], ["danger", "危険"], ["risk", "危険・リスク"], ["encounter", "出会う・遭遇する"], ["trick", "仕掛け・こつ"], ["proof", "証拠"], ["aid", "援助・助ける"], ["heat", "熱・暑さ"], ["percentage", "割合・百分率"], ["balance", "バランス・均衡"]]);
+SETS.push([["major", "主要な・専攻"], ["national", "国の・国民の"], ["olympic", "オリンピックの"], ["global", "世界的な"], ["monthly", "月刊の・毎月の"], ["weekly", "週刊の・毎週の"], ["critical", "批判的な・重大な"], ["optional", "任意の・選択の"], ["widely", "広く"], ["generally", "一般的に"]]);
+SETS.push([["several", "いくつかの"], ["huge", "巨大な"], ["wise", "賢い"], ["straight", "まっすぐな・直接の"], ["fit", "合う・健康な"], ["miss", "逃す・恋しく思う"], ["deal", "取引・扱う"], ["aim", "目的・狙う"], ["current", "現在の・流れ"], ["variety", "多様性・種類"]]);
+SETS.push([["flyer", "チラシ"], ["recipe", "レシピ・秘訣"], ["cycle", "循環・周期"], ["invention", "発明"], ["everyday", "日常の"], ["voice", "声"], ["outdoor", "屋外の"], ["display", "見せる・展示する"], ["chat", "話す・雑談"], ["musical", "音楽の・ミュージカル"]]);
+
 const LEVELS = [
   { name: "レベル1", start: 0, count: 20 },
   { name: "レベル2", start: 20, count: 30 },
   { name: "レベル3", start: 50, count: 30 },
-  { name: "レベル4", start: 80, count: 30 }
+  { name: "レベル4", start: 80, count: 30 },
+  { name: "レベル5", start: 110, count: 12 },
+  { name: "レベル6", start: 122, count: 10 }
 ];
 function levelOf(i) {
   for (const L of LEVELS) if (i >= L.start && i < L.start + L.count) return L;
@@ -553,9 +578,9 @@ function startTest() {
 }
 
 function startPlacement() {
-  // 各レベルから5問ずつ（計20問）サンプリングし、レベル別に集計する
+  // レベル1〜4から5問ずつ（計20問）サンプリングし、レベル別に集計する
   quiz = [];
-  LEVELS.forEach((L, li) => {
+  LEVELS.slice(0, 4).forEach((L, li) => {
     sample(SETS.slice(L.start, L.start + L.count), 5).forEach(s => {
       const w = s[Math.floor(Math.random() * 10)];
       const q = makeQ(w, "診断" + (li + 1), ALL);
